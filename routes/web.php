@@ -12,12 +12,14 @@ Route::get('/', function () {
 });
 
 Route::get('/auth', [AuthController::class, 'AuthPage'])->middleware(LoginCheck::class);
-Route::get('/MyBandles', [UserController::class, 'MyBandles'])->middleware(AuthCheck::class);;
+Route::get('/MyBandles', [UserController::class, 'MyBandles'])->middleware(AuthCheck::class);
 Route::post('/registration', [AuthController::class, 'registration']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::post('/api', [ApiController::class, 'Api']);
+
+Route::get('/bandle/{bandle}', [UserController::class, 'bandle'])->middleware(AuthCheck::class);
 
 
 //->middleware(Authenticate::class)

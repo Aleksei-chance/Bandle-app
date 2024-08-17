@@ -16,7 +16,7 @@ function bandle_items_load(type_view) {
             oneSecondTimer = setTimeout(function() {
                 bandle_renew_item(id);
                 check = 0;
-            }, 1000);
+            }, 500);
 
             return false;
         });
@@ -34,13 +34,13 @@ function bandle_items_load(type_view) {
     });
 }
 
-function bandle_renew_item(id) {
+function bandle_renew_item(id, Func = '') {
     
     $.ajax({
         url: "/api",
         method: "post",
         dataType: "html",
-        data: {_token: TOKEN, Type: 'Bandle', func: 'renew_item', id: id}
+        data: {_token: TOKEN, Type: 'Bandle', func: 'renew_item', id: id, Func: Func}
     }).done(function(data){
         $("#modal").html(data);
     }).fail(function(data){
@@ -48,7 +48,7 @@ function bandle_renew_item(id) {
     });
 }
 
-function bandle_renew_item_send(id) {
+function bandle_renew_item_send(id, Func = '') {
     let title = $('#title').val();
     let description = $('#description').val();
     $.ajax({
@@ -59,7 +59,11 @@ function bandle_renew_item_send(id) {
     }).done(function(data){
         console.log(data);
         if(data > 0) {
-            bandle_items_load(0);
+            if(Func == "location") {
+                location.reload();
+            } else {
+                bandle_items_load(0);
+            }
             modal_hide();
         } else {
             input_error(data);
@@ -178,12 +182,12 @@ function input_valid(e) {
     }
 }
 
-function bandle_remove_item(id) {
+function bandle_remove_item(id, Func = '') {
     $.ajax({
         url: "/api",
         method: "post",
         dataType: "html",
-        data: {_token: TOKEN, Type: 'Bandle', func: 'remove_item', id: id}
+        data: {_token: TOKEN, Type: 'Bandle', func: 'remove_item', id: id, Func: Func}
     }).done(function(data){
         $("#modal_g").html(data);
     }).fail(function(data){
@@ -191,7 +195,7 @@ function bandle_remove_item(id) {
     });
 }
 
-function bandle_remove_item_send(id) {
+function bandle_remove_item_send(id, Func = '') {
     $.ajax({
         url: "/api",
         method: "post",
@@ -201,7 +205,11 @@ function bandle_remove_item_send(id) {
         if(data > 0) {
             modal('hide', 'bandle_item_remove');
             modal('hide', 'bandle_item_renew');
-            bandle_items_load(0);
+            if(Func == "location") {
+                location.reload();
+            } else {
+                bandle_items_load(0);
+            }
         }
     }).fail(function(data){
         console.log(data);

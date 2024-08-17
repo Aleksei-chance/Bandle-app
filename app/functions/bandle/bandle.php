@@ -55,13 +55,16 @@ function bandle_item_add_send($request) {
     return 0;
 }
 
-function bandle_renew_item($id) {
+function bandle_renew_item($id, $request) {
     $arr = array();
-
     $bandle = Bandle::query()->find($id);
+    $arr['func'] = '';
+    if(isset($request->Func)) {
+        $arr['func'] = $request->Func;
+    }
 
     if($bandle) {
-        return view('user.bandle.modal.renew_item', $bandle->toArray());
+        return view('user.bandle.modal.renew_item', array_merge($bandle->toArray(), $arr) );
     }
     
     return 0;
@@ -107,10 +110,14 @@ function bandle_renew_item_send($id, $request) {
     return 0;
 }
 
-function bandle_remove_item($id) {
+function bandle_remove_item($id, $request) {
     $arr = array();
+    $arr['func'] = '';
+    if(isset($request->Func)) {
+        $arr['func'] = $request->Func;
+    }
     if($bandle = Bandle::query()->find($id)) {
-        return view('user.bandle.modal.remove_item', $bandle->toArray());
+        return view('user.bandle.modal.remove_item', array_merge($bandle->toArray(), $arr));
     }
     return 0;
 }

@@ -4,7 +4,7 @@
             <i class="modal_close"></i>
             Cancel
         </button>
-        <p class="text_black text_title">Bande renew</p>
+        <p class="text_black text_title">Bande edit</p>
         <div style="width: 85px;"></div>
     </div>
     <div class="modal_content">
@@ -18,8 +18,8 @@
         
     </div>
     <div class="modal_btn_group">
-        <button class="modal_btn_remove" onclick="bandle_remove_item({!! $id !!})">􀈑 Delete</button>
-        <button class="modal_main_small" onclick="bandle_renew_item_send({!! $id !!})" style="width: 108px;">Done</button>
+        <button class="modal_btn_remove" onclick="bandle_remove_item({!! $id !!}, '{{ $func }}')">􀈑 Delete</button>
+        <button class="modal_main_small" onclick="bandle_renew_item_send({!! $id !!}, '{{ $func }}')" style="width: 108px;">Done</button>
     </div>
 </div>
 

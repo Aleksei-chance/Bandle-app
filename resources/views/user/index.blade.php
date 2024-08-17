@@ -13,8 +13,10 @@
 </head>
 <body class="body_main">
     <div class="content">
-        @if ($type == "bandle")
+        @if ($type == "bandle_list")
             @include('user.bandle.main')
+        @elseif ($type == "bandle")
+            @include('user.bandle.item')
         @endif
     </div>
     <div class="hover" id="hover"></div>

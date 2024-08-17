@@ -37,6 +37,7 @@ button {
     background: none;
     padding: 0;
     cursor: pointer;
+    font-family: 'SFPro';
 }
 
 button:hover {
@@ -312,8 +313,8 @@ h3 {
 }
 
 .content {
-    width: 375px;
     height: 100%;
+    aspect-ratio: 9 / 19.5;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -323,6 +324,7 @@ h3 {
     gap: 5px;
     max-height: 100vh;
     overflow: hidden;
+    padding: 8px;
 }
 
 .navigation_bar {
@@ -331,7 +333,7 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 8px;
 }
 
 .navigation_btns {
@@ -391,7 +393,7 @@ h3 {
     flex: none;
     flex-grow: 1;
     width: 100%;
-    padding: 0 11.5px;
+    padding: 0 8px;
     overflow-x: auto;
     max-height: calc(100vh - 127px);
 }
@@ -630,4 +632,71 @@ h3 {
 
 .border_right {
     border-right: 1px solid var(--remove-modal);
+}
+
+.bandle_item {
+    width: 100%;
+    background-color: var(--background-main);
+    border-radius: 28px;
+    padding: 0 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 0 8px 0;
+}
+
+.bandle_head {
+    width: 100%;
+    height: 44px;
+    padding: 0 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bandle_add_btn {
+    height: 44px;
+    padding: 0 16px;
+    border: 2px var(--color-main) solid;
+    border-radius: 40px;
+    font-weight: 400;
+    font-size: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.bandle_add_btn_icon {
+    width: 22px;
+    height: 20px;
+    background-size: cover;
+    background-image: url(icons/bandle_add_item.svg);
+}
+
+.bandle_item_content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+center {
+    font-family: 'SFPro';
+    font-weight: 400;
+    font-size: 17px;
+    color: var(--text-black);
+}
+
+.btn_zero {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.btn_bandle_edit {
+    height: 41px;
+    width: 45px;
+    background-size: cover;
+    background-image: url(icons/btn_bandle_edit.svg);
+    gap: 0 8px;
 }

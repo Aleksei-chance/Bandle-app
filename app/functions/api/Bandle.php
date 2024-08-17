@@ -21,13 +21,13 @@ else if($func == "item_add_send") {
 } 
 else if($id > 0 && bandle_acsses($id)) {
     if($func == "renew_item") {
-        echo bandle_renew_item($id);
+        echo bandle_renew_item($id, $request);
     } 
     else if($func == "renew_item_send") {
         echo bandle_renew_item_send($id, $request);
     } 
     else if($func == "remove_item") {
-        echo bandle_remove_item($id);
+        echo bandle_remove_item($id, $request);
     } 
     else if($func == "remove_item_send") {
         echo bandle_remove_item_send($id);
