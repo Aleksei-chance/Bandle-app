@@ -210,6 +210,7 @@ function bandle_remove_item_send(id, Func = '') {
             } else {
                 bandle_items_load(0);
             }
+            
         }
     }).fail(function(data){
         console.log(data);
