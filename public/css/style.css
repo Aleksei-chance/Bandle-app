@@ -47,6 +47,7 @@ button:hover {
 p, h3 {
     margin: 0;
     text-rendering:geometricPrecision;
+    font-family: 'SFPro';
 }
 
 input {
@@ -678,6 +679,7 @@ h3 {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    padding: 0 8px;
 }
 
 center {
@@ -699,4 +701,171 @@ center {
     background-size: cover;
     background-image: url(icons/btn_bandle_edit.svg);
     gap: 0 8px;
+}
+
+.bandle_item_add_body {
+    overflow: hidden;
+    width: 376px;
+    padding: 0 0 71px 0;
+    gap: 0;
+}
+
+.bandle_item_add_head {
+    background-color: var(--input-grey);
+    padding: 0 8px;
+}
+
+.title_with_icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.block_modal_add_item {
+    width: 25px;
+    height: 20px;
+    background-size: cover;
+    background-image: url(icons/block_modal_add_item.svg);
+}
+
+.block_add_item_block {
+    width: 100%;
+    padding: 16px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+}
+
+.block_add_item_block:hover {
+    opacity: 0.7;
+}
+
+.name_card_icon {
+    width: 24px;
+    height: 24px;
+    background-size: cover;
+    background-image: url(icons/name_card_icon.svg);
+}
+
+.block_add_item_text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.block_add_item_name {
+    font-family: 'SFPro';
+    font-weight: 400;
+    font-size: 17px;
+    color: var(--color-main);
+}
+
+.block_add_item_description {
+    font-family: 'SFPro';
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--text-grey);
+}
+
+.block {
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+}
+
+.block_content {
+    flex: none;
+    flex-grow: 1;
+    border-radius: 20px;
+    background-color: var(--body-main);
+    overflow: hidden;
+    transition-duration: 0.25s;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.block_remove {
+    width: 0px;
+    overflow: hidden;
+    background-color: red;
+    transition-duration: 0.25s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 0px;
+    cursor: pointer;
+    border-radius: 20px;
+    color: var(--body-main);
+    font-family: 'SFPro';
+    font-weight: 400;
+    font-size: 17px;
+    white-space: nowrap;
+}
+
+.block:hover {
+    gap: 8px;
+}
+
+.block:hover > .block_remove {
+    width: 15px;
+}
+
+.block_remove:hover {
+    padding: 8px;
+    width: 89px !important;
+    transition-duration: 0.5s !important;
+    opacity: 0.7;
+}
+
+.name_block_content_small {
+    width: 100%;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.name_block_name_group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    max-width: 60%;
+    overflow: hidden;
+}
+
+.name_block_name {
+    font-family: 'SFPro';
+    font-weight: 600;
+    font-style: 17px;
+}
+
+.name_block_pronouns {
+    font-weight: 400;
+    font-size: 11px;
+    color: var(--text-grey);
+}
+
+.name_block_article {
+    max-width: 40%;
+    overflow: hidden;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+.block_icon {
+    width: 22px;
+    height: 22px;
+    background-size: cover;
+} 
+
+.name_block_icon {
+    background-image: url(icons/name_block_icon.svg);
 }

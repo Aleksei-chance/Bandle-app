@@ -1,5 +1,7 @@
 <?php
 
+use App\Logic\Bandle\BandleLogic;
+
 $func = "";
 if(isset($request->func)) {
     $func = $request->func;
@@ -10,27 +12,28 @@ if(isset($request->id)) {
     $id = $request->id;
 }
 
+$Bundle = New BandleLogic;
 if($func == "items_load" && isset($request->type_view)) {
-    echo bandle_items_load($request->type_view);
+    echo $Bundle->load_items($request->type_view);
 } 
 else if($func == "item_add") {
-    echo bandle_item_add();
+    echo $Bundle->add_item();
 } 
 else if($func == "item_add_send") {
-    echo bandle_item_add_send($request);
+    echo $Bundle->add_item_send($request);
 } 
-else if($id > 0 && bandle_acsses($id)) {
+else if($id > 0 && $Bundle->access($id)) {
     if($func == "renew_item") {
-        echo bandle_renew_item($id, $request);
+        echo $Bundle->renew_item($id, $request);
     } 
     else if($func == "renew_item_send") {
-        echo bandle_renew_item_send($id, $request);
+        echo $Bundle->renew_item_send($id, $request);
     } 
     else if($func == "remove_item") {
-        echo bandle_remove_item($id, $request);
+        echo $Bundle->remove_item($id, $request);
     } 
     else if($func == "remove_item_send") {
-        echo bandle_remove_item_send($id);
+        echo $Bundle->remove_item_send($id);
     } 
 
     else {

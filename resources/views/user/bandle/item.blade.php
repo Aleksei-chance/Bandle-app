@@ -9,16 +9,13 @@
             <button class="btn_bandle_edit" onclick="bandle_renew_item({{ $id }}, 'location')"></button>
         </div>
     </div>
-    <div class="bandle_item_content">
-        @if (count($items) > 0)
-            
-        @else
-            <br><br><br><br>
-            <center>Add first block!</center>
-            <br><br><br><br>
-        @endif
+    <div class="bandle_item_content" id="bandle_item_content">
+        
     </div>
     <div class="modal_header" style="justify-content: center;">
-        <button class="bandle_add_btn"><i class="bandle_add_btn_icon"></i>Add</button>
+        <button class="bandle_add_btn" onclick="bandle_block_item_add({{ $id }})">
+            <i class="bandle_add_btn_icon"></i>
+            Add
+        </button>
     </div>
 </div>

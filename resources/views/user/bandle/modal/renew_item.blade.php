@@ -14,6 +14,7 @@
         </div>
         <div class="input_block" id="description_block">
             <input type="text" class="input_simple text_black" placeholder="Description" id="description"  oninput="input_valid(this)" value="{!! $description !!}">
+            <p class="error_text"></p>
         </div>
         
     </div>

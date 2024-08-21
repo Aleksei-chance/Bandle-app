@@ -23,5 +23,8 @@
     <div class="modal" id="modal"></div>
     <div class="hover" id="hover_g" style="z-index: 3"></div>
     <div class="modal" id="modal_g" style="z-index: 4"></div>
+    <script>
+        {!! $func ?? '' !!}
+    </script>
 </body>
 </html>

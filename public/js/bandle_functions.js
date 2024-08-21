@@ -30,7 +30,7 @@ function bandle_items_load(type_view) {
         });
 
     }).fail(function(data){
-        console.log(data);
+        location.reload();
     });
 }
 
@@ -44,7 +44,7 @@ function bandle_renew_item(id, Func = '') {
     }).done(function(data){
         $("#modal").html(data);
     }).fail(function(data){
-        console.log(data);
+        location.reload();
     });
 }
 
@@ -57,7 +57,6 @@ function bandle_renew_item_send(id, Func = '') {
         dataType: "html",
         data: {_token: TOKEN, Type: 'Bandle', func: 'renew_item_send', id: id, title: title, description: description}
     }).done(function(data){
-        console.log(data);
         if(data > 0) {
             if(Func == "location") {
                 location.reload();
@@ -69,7 +68,7 @@ function bandle_renew_item_send(id, Func = '') {
             input_error(data);
         }
     }).fail(function(data){
-        console.log(data);
+        location.reload();
     });
 }
 
@@ -82,7 +81,7 @@ function bandle_item_add() {
     }).done(function(data){
         $("#modal").html(data);
     }).fail(function(data){
-        console.log(data);
+        location.reload();
     });
 }
 
@@ -144,7 +143,6 @@ function bandle_item_add_send() {
         dataType: "html",
         data: {_token: TOKEN, Type: 'Bandle', func: 'item_add_send', title: title, description: description}
     }).done(function(data){
-        console.log(data);
         if(data > 0) {
             bandle_items_load(0);
             modal_hide();
@@ -152,7 +150,7 @@ function bandle_item_add_send() {
             input_error(data);
         }
     }).fail(function(data){
-        console.log(data);
+        location.reload();
     });
 }
 
@@ -191,7 +189,7 @@ function bandle_remove_item(id, Func = '') {
     }).done(function(data){
         $("#modal_g").html(data);
     }).fail(function(data){
-        console.log(data);
+        location.reload();
     });
 }
 
@@ -213,6 +211,153 @@ function bandle_remove_item_send(id, Func = '') {
             
         }
     }).fail(function(data){
-        console.log(data);
+        location.reload();
+    });
+}
+
+function bandle_block_items_load(id) {
+    $.ajax({
+        url: "/api",
+        method: "post",
+        dataType: "html",
+        data: {_token: TOKEN, Type: 'BandleBlock', func: 'items_load', bandle_id: id}
+    }).done(function(data){
+        $("#bandle_item_content").html(data);
+
+        let timeout = 0;
+        let check = 0;
+        $('.block_action').mousedown(function(e) {
+            let id = $(e.currentTarget).attr('id').replaceAll('block_', '');
+            check = 1;
+            oneSecondTimer = setTimeout(function() {
+                bandle_block_renew_item(id);
+                check = 0;
+            }, 500);
+
+            return false;
+        });
+
+        $(".block_action").mouseup(function(e) {
+            let id = $(e.currentTarget).attr('id').replaceAll('block_', '');
+            if(check) {
+                // location.href = "/bandle/"+id;
+            }
+            clearTimeout(oneSecondTimer);
+        });
+    }).fail(function(data){
+        location.reload();
+    });
+}
+
+function bandle_block_item_add(id) {
+    $.ajax({
+        url: "/api",
+        method: "post",
+        dataType: "html",
+        data: {_token: TOKEN, Type: 'BandleBlock', func: 'item_add', bandle_id: id}
+    }).done(function(data){
+        $("#modal").html(data);
+    }).fail(function(data){
+        location.reload();
+    });
+}
+
+function bandle_block_item_add_send(id, type_id) {
+    $.ajax({
+        url: "/api",
+        method: "post",
+        dataType: "html",
+        data: {_token: TOKEN, Type: 'BandleBlock', func: 'item_add_send', bandle_id: id, type_id: type_id}
+    }).done(function(data){
+        if(data > 0)
+        {
+            bandle_block_items_load(id);
+            modal_hide();
+        }
+    }).fail(function(data){
+        location.reload();
+    });
+}
+
+function bandle_block_items_load_content() {
+    $(document).find('.block').each(function() {
+        let id = $(this).attr('id').replace('block_', '');
+        bandle_block_load_item_content(id);
+    });
+}
+
+function bandle_block_load_item_content(id) {
+    $.ajax({
+        url: "/api",
+        method: "post",
+        dataType: "html",
+        data: {_token: TOKEN, Type: 'BandleBlock', func: 'load_content', id: id}
+    }).done(function(data){
+        $("#block_"+id+"_content").html(data);
+    }).fail(function(data){
+        location.reload();
+    });
+}
+
+function bandle_block_renew_item(id) {
+    $.ajax({
+        url: "/api",
+        method: "post",
+        dataType: "html",
+        data: {_token: TOKEN, Type: 'BandleBlock', func: 'renew_item', id: id}
+    }).done(function(data){
+        $("#modal").html(data);
+    }).fail(function(data){
+        location.reload();
+    });
+}
+
+function bandle_block_renew_item_send(id) {
+    let name = $('#name').val();
+    let article = $('#article').val();
+    let pronouns = $('#pronouns').val();
+    $.ajax({
+        url: "/api",
+        method: "post",
+        dataType: "html",
+        data: {_token: TOKEN, Type: 'BandleBlock', func: 'renew_item_send', id: id, name: name, article: article, pronouns: pronouns}
+    }).done(function(data){
+        if(data > 0) {
+            bandle_block_load_item_content(id);
+            modal_hide();
+        } else {
+            input_error(data);
+        }
+    }).fail(function(data){
+        location.reload();
+    });
+}
+
+function bandle_block_remove_item(id) {
+    $.ajax({
+        url: "/api",
+        method: "post",
+        dataType: "html",
+        data: {_token: TOKEN, Type: 'BandleBlock', func: 'remove_item', id: id}
+    }).done(function(data){
+        $("#modal").html(data);
+    }).fail(function(data){
+        location.reload();
+    });
+}
+
+function bandle_block_remove_item_send(id, bandle_id) {
+    $.ajax({
+        url: "/api",
+        method: "post",
+        dataType: "html",
+        data: {_token: TOKEN, Type: 'BandleBlock', func: 'remove_item_send', id: id}
+    }).done(function(data){
+        if(data > 0) {
+            modal('hide', 'block_item_remove');
+            bandle_block_items_load(bandle_id);
+        }
+    }).fail(function(data){
+        location.reload();
     });
 }
