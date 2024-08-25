@@ -174,9 +174,11 @@ function input_valid(e) {
     block.find("input").removeClass('input_error');
     block.find("i").removeClass('icon_error');
     if(val != "") {
+        block.find("i").removeClass('icon_send');
         block.find("i").addClass('icon_clear');
     } else {
         block.find("i").addClass('icon_send');
+        block.find("i").removeClass('icon_clear');
     }
 }
 
@@ -295,7 +297,7 @@ function bandle_block_load_item_content(id) {
     }).done(function(data){
         $("#block_"+id+"_content").html(data);
     }).fail(function(data){
-        location.reload();
+        
     });
 }
 
@@ -357,6 +359,78 @@ function bandle_block_remove_item_send(id, bandle_id) {
             modal('hide', 'block_item_remove');
             bandle_block_items_load(bandle_id);
         }
+    }).fail(function(data){
+        location.reload();
+    });
+}
+
+function input_action(e) {
+    let icon = $(e).children();
+    let parent = $(e).parent();
+    
+    if(icon.hasClass('icon_send')) {
+        parent.find("input").trigger('change');
+    }
+    if(icon.hasClass('icon_clear') || icon.hasClass('input_error')) {
+        parent.find("input").val('');
+    }
+    input_valid(e);
+    
+}
+
+function bandle_block_link_add_item() {
+    $("#link_add_btn").addClass('d_none');
+    $("#link_add_input").removeClass('d_none');
+}
+
+function bandle_block_link_add_item_send(e, id) {
+    let val = $(e).val();
+    if(val == "") {
+        $("#link_add_btn").removeClass('d_none');
+        $("#link_add_input").addClass('d_none');
+    } else {
+        $.ajax({
+            url: "/api",
+            method: "post",
+            dataType: "html",
+            data: {_token: TOKEN, Type: 'BandleBlock', func: 'add_social_link', id: id, link: val}
+        }).done(function(data){
+            console.log(data);
+            if(data > 0) {
+                bandle_block_load_item_content(id);
+                bandle_block_renew_social_link_content(id);
+            }
+        }).fail(function(data){
+            location.reload();
+        });
+    }
+}
+
+function bandle_block_renew_social_link(element, id, block_id) {
+    let value = $(element).val();
+    $.ajax({
+        url: "/api",
+        method: "post",
+        dataType: "html",
+        data: {_token: TOKEN, Type: 'BandleBlock', func: 'renew_social_link', link_id: id, value: value}
+    }).done(function(data){
+        if(data > 0) {
+            bandle_block_load_item_content(block_id);
+            bandle_block_renew_social_link_content(block_id);
+        }
+    }).fail(function(data){
+        location.reload();
+    });
+}
+
+function bandle_block_renew_social_link_content(id) {
+    $.ajax({
+        url: "/api",
+        method: "post",
+        dataType: "html",
+        data: {_token: TOKEN, Type: 'BandleBlock', func: 'renew_social_link_content', id: id}
+    }).done(function(data){
+        $("#social_link_content").html(data);
     }).fail(function(data){
         location.reload();
     });

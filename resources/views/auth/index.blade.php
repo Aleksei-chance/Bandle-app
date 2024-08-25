@@ -81,7 +81,7 @@
             <div class="input_block" id="password_block">
                 <label class="auth_input_zone input_reg" for="password">
                     <input type="password" placeholder="Password" name="password" id="password" oninput="input_valid(this)">
-                    <button class="input_btn">
+                    <button class="input_btn" onclick="input_action(this);">
                         <i class="icon_small icon_send"></i>
                     </button>
                 </label>
@@ -91,7 +91,7 @@
             <div class="input_block" id="password_confirmation_block">
                 <label class="auth_input_zone input_reg" for="password_confirmation">
                     <input type="password" placeholder="Repeat password" name="password_confirmation" id="password_confirmation" oninput="input_valid(this)">
-                    <button class="input_btn">
+                    <button class="input_btn" onclick="input_action(this);">
                         <i class="icon_small icon_send"></i>
                     </button>
                 </label>

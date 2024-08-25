@@ -7,5 +7,5 @@
         <p class="name_block_article">{{ $article }}</p>
     </div>
 @else
-    <i class="block_icon name_block_icon"></i>
+    <i class="name_card_icon"></i>
 @endif

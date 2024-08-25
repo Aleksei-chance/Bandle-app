@@ -16,6 +16,10 @@ $bandle_id = 0;
 if(isset($request->bandle_id)) {
     $bandle_id = $request->bandle_id;
 }
+$link_id = 0;
+if(isset($request->link_id)) {
+    $link_id = $request->link_id;
+}
 
 $Bundle = New BandleLogic;
 $Block = New BlockLogic;
@@ -36,6 +40,12 @@ if($id > 0 && $Block->access($id)) {
     else if($func == "remove_item_send") {
         echo $Block->remove_item_send($id);
     }
+    else if($func == "add_social_link" && isset($request->link)) {
+        echo $Block->add_social_link($id, $request->link);
+    }
+    else if($func == "renew_social_link_content") {
+        echo $Block->renew_social_link_content($id);
+    }
     else {
         echo 'No func';
     }
@@ -55,6 +65,16 @@ else if($bandle_id > 0 && $Bundle->access($bandle_id)) {
         echo 'No func';
     }
 }
+
+else if($link_id > 0 && $Block->social_link_access($link_id)) {
+    if($func == "renew_social_link") {
+        echo $Block->renew_social_link($link_id, $request->value);
+    } 
+    else {
+        echo 'No func';
+    }
+}
+
 else {
     echo 'No func';
 }

@@ -6,6 +6,7 @@ use App\Models\Bandle;
 use App\Models\Block;
 use App\Models\BlockType;
 use App\Models\NameBlock;
+use App\Models\SocialLink;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -27,7 +28,7 @@ class BlockLogic {
         foreach($items as $item) {
             $limit = BlockType::query()->find($item->id)->limit;
             $count = Bandle::query()->find($bandle_id)->blocks_count();
-            if($count < $limit) {
+            if($count < $limit || $limit == 0) {
                 $arr["items"][] = $item->toArray();
             }
         }
@@ -39,15 +40,20 @@ class BlockLogic {
         $user_id = Auth::id();
         $limit = BlockType::query()->find($type_id)->limit;
         $count = Bandle::query()->find($bandle_id)->blocks_count();
-        if($count < $limit && $block = Block::create([
+        $max = Bandle::query()->find($bandle_id)->blocks()->max('sort');
+        $max++;
+        if(($count < $limit || $limit == 0) && $block = Block::create([
             'bandle_id' => $bandle_id
             , 'user_id' => $user_id
             , 'block_type_id' => $type_id
+            , 'sort' => $max
         ])) {
             if($type_id == 1 && NameBlock::query()->create([
                 'block_id' => $block->id
                 , 'user_id' => $user_id
             ])) {
+                return 1;
+            } else if($type_id == 2) {
                 return 1;
             }
             
@@ -70,6 +76,13 @@ class BlockLogic {
             $content = Block::query()->find($id)->name_content()->toArray();
 
             return view('user.bandle.block.name_block', $content);
+        } else if($block_type_id == 2) {
+            $arr = array(
+                'id' => $id
+                , 'items' => Block::query()->find($id)->social_links()->get()->toArray()
+            );
+
+            return view('user.bandle.block.social_block', $arr);
         }
         return 0;
     }
@@ -80,7 +93,14 @@ class BlockLogic {
             $content = Block::query()->find($id)->name_content()->toArray();
             $content['block_id'] = $id;
             return view('user.bandle.block.modal.name_block_renew', $content);
+        } else if ($block_type_id == 2) {
+            $content = array(
+                'block_id' => $id
+                , 'items' => Block::query()->find($id)->social_links()->get()->toArray()
+            );
+            return view('user.bandle.block.modal.social_block_renew', $content);
         }
+        return 0;
     } 
 
     public function renew_item_send($id, Request $request) {
@@ -144,9 +164,95 @@ class BlockLogic {
                 if($name_block->save()) {
                     return 1;
                 }
+            } else if($block_type_id == 2) {
+                return 1;
             }
         }
         return 0;
+    }
+
+    public function add_social_link($id, $link) {
+        $count = Block::query()->find($id)->social_links_count();
+        $max = Block::query()->find($id)->social_links()->max('sort');
+        $max++;
+
+        $link = $this->parse_link($link);
+        $icon = $this->get_icon_by_link($link);
+
+        if($count < 6 && SocialLink::query()->create([
+            'block_id' => $id
+            , 'user_id' => Auth::id()
+            , 'icon' => $icon
+            , 'link' => $link
+            , 'sort' => $max
+        ])) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public function parse_link($link) {
+        $url = parse_url($link);
+        if(isset($url['host'])) {
+            $link = $url['host'];
+            if(isset($url['path'])) {
+                $link .= $url['path'];
+            }
+            if(isset($url['query'])) {
+                $link .= '?'.$url['query'];
+            }
+        }
+        return $link;
+    }
+
+    public function get_icon_by_link($link) {
+        $icon = $host = "";
+        $url = parse_url($link);
+        if(isset($url['host'])) {
+            $host = $url['host'];
+        } else {
+            $arr = explode('/', $link);
+            $host = $arr[0];
+        }
+        $url = 'http://www.google.com/s2/favicons?domain='.$host.'&sz=128';
+        if(file_get_contents($url)) 
+        {
+            $icon = $url;
+        }
+        return $icon;
+    }
+
+    public function social_link_access($link_id) {
+        $social_link = SocialLink::query()->find($link_id)->user_id;
+        $user_id = Auth::id();
+        if($social_link == $user_id) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public function renew_social_link($link_id, $value) {
+        $social_link = SocialLink::query()->find($link_id);
+        if($value != "") {
+            $social_link->link = $value;
+            if($social_link->save()) {
+                return 1;
+            }
+        } else {
+            $social_link->hidden = 1;
+            if($social_link->save()) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    public function renew_social_link_content($id) {
+        $content = array(
+            'block_id' => $id
+            , 'items' => Block::query()->find($id)->social_links()->get()->toArray()
+        );
+        return view('user.bandle.block.modal.social_block_renew_content', $content);
     }
     
 }

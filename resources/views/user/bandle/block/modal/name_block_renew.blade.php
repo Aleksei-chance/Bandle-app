@@ -5,7 +5,7 @@
             Cancel
         </button>
         <div class="title_with_icon">
-            <i class="block_icon name_block_icon"></i>
+            <i class="name_card_icon"></i>
             <p class="text_black text_title">Name</p>
         </div>
         <div style="width: 85px;"></div>
